@@ -6,7 +6,7 @@
 ## Quick Installation
 
 ## while beta
-`
+```
 "repositories": [
         {
             "type": "package",
@@ -25,7 +25,8 @@
             }
         }
     ],
-`
+```
+
 **Laravel 5.1:**
  add to your composer.json
  `"tok3/laravel42-firebird-support": "@beta"`
