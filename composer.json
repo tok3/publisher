@@ -1,0 +1,27 @@
+{
+    "name": "tok3/demo",
+    "description": "Publish Pages",
+    "keywords": ["laravel", "publisher"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "tok3",
+            "email": "tok@eq3w.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Tok3\\Publisher\\": "src/"
+
+        }
+    },
+    "require-dev": {
+        "fzaninotto/faker": "~1.4",
+        "laravelcollective/html": "5.1.*"
+    },
+    "require": {
+        "illuminate/support": "~5",
+        "laravelcollective/html": "5.1.*"
+    }
+
+}
