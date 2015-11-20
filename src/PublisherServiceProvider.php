@@ -34,6 +34,7 @@ class PublisherServiceProvider extends ServiceProvider
 
     public function boot()
     {
+
         require __DIR__ . '/Http/routes.php';
 
 
@@ -43,7 +44,7 @@ class PublisherServiceProvider extends ServiceProvider
             __DIR__ . '/config/publisher.php' => config_path('tok3-publisher.php')
         ], 'package.php');
 
-        /*
+
                 $this->publishes([
                     __DIR__ . '/views' => base_path('resources/views/vendor/tok3-demo')
                 ], 'views');
@@ -51,7 +52,7 @@ class PublisherServiceProvider extends ServiceProvider
 
                 $this->publishes([
                     __DIR__ . '/migrations' => $this->app->databasePath() . '/migrations'
-                ], 'migrations');*/
+                ], 'migrations');
 
 
         Page::deleting(function ($page) {
