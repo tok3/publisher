@@ -1,8 +1,34 @@
 # publisher
 
 
+
+
 ## Quick Installation
-**Laravel 5.1:** `composer require tok3/publisher`
+
+## while beta
+`
+"repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "tok3/laravel42-firebird-support",
+                "version": "1.0",
+                "dist": {
+                    "url": "https://github.com/tok3/laravel42-firebird-support/archive/master.zip",
+                    "type": "zip"
+                },
+                "source": {
+                    "url": "https://github.com/tok3/laravel42-firebird-support.git",
+                    "type": "git",
+                    "reference": "dev-master"
+                }
+            }
+        }
+    ],
+`
+**Laravel 5.1:**
+ add to your composer.json
+ `"tok3/laravel42-firebird-support": "@beta"`
 
 #### Service Provider
 `Tok3\Publisher\PublisherServiceProvider::class`
