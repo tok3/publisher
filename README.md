@@ -1,11 +1,8 @@
 # publisher
-
-
-
-
 ## Quick Installation
+## beta 
 
-## while beta
+Add this to your application composer.json to bypass packagist: 
 ```
 "repositories": [
         {
@@ -37,11 +34,5 @@
 **Laravel 5.1**
 ` 'Publisher' => Tok3\Publisher\PublisherFacade::class,`
 
-
-And that's it! Start build and publish pages and articles!
-
-## License
-
-Licensed under the [MIT License](https://github.com/yajra/laravel-datatables/blob/master/LICENSE).
 
 
