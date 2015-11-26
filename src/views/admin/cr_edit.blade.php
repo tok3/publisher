@@ -18,7 +18,7 @@
             <div class="panel-heading hbuilt">
                 <div class="panel-tools">
                     <a class="" href="{!! url(Config::get('tok3-publisher.route_admin_pages','publisher-pages')) !!}">[BACK]</a>
-                    <a class="" href="{!! url(Config::get('tok3-publisher.route_admin_pages','publisher-pages')) !!}/create">[NEW]</a>
+
                     <a class="" href="{!! url(Config::get('tok3-publisher.route_admin_pages','publisher-pages')) !!}/{!! $page->id !!}/delete">[DELETE]</a>
                     <a class="showhide"><i class="fa fa-chevron-up"></i></a>
                     <a href="#"><i class="fa fa-times"></i></a>

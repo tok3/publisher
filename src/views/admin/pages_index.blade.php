@@ -10,7 +10,7 @@
         <div class="col-sm-12 blog-main">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
-                <div class="panel-heading">Pages</div>
+                <div class="panel-heading">Pages <a class="" href="{!! url(Config::get('tok3-publisher.route_admin_pages','publisher-pages')) !!}/create">[ADD NEW]</a></div>
 
                 <!-- Table -->
                 <table class="table" style="white-space:nowrap;">

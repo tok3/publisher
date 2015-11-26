@@ -25,14 +25,30 @@ Add this to your application composer.json to bypass packagist:
 ```
 
 **Laravel 5.1:**
- add to your composer.json
- `"tok3/publisher": "@beta"`
+<br>add `"tok3/publisher": "@beta"` to your composer.json
+ 
 
 #### Service Provider
 `Tok3\Publisher\PublisherServiceProvider::class`
 
-**Laravel 5.1**
+**Laravel 5.1**<br>
 ` 'Publisher' => Tok3\Publisher\PublisherFacade::class,`
 
+
+
+## Migration
+
+run `php artisan vendor:publish`<br>
+after that `php artisan migrate`
+
+
+### Now you are done !
+Explor the package visit: <b>http://localhost:8000/publisher/pages</b> (assumed using artisan)
+
+when you need some fake data you'll find a seeder in `vendor/tok3/publisher/src/seeds`
+
+
+Routes and so on can changed in the config `config/tok3-publisher.php`<br>
+Views are stored in `resources/views/vendor/tok3-publisher/`
 
 

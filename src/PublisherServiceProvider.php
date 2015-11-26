@@ -46,13 +46,18 @@ class PublisherServiceProvider extends ServiceProvider
 
 
                 $this->publishes([
-                    __DIR__ . '/views' => base_path('resources/views/vendor/tok3-demo')
+                    __DIR__ . '/views' => base_path('resources/views/vendor/tok3-publisher')
                 ], 'views');
 
 
                 $this->publishes([
                     __DIR__ . '/migrations' => $this->app->databasePath() . '/migrations'
                 ], 'migrations');
+
+        $this->publishes([
+            __DIR__ . '/seeds' => base_path('database/seeds')
+        ], 'views');
+
 
 
         Page::deleting(function ($page) {
