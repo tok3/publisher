@@ -1,5 +1,8 @@
 @extends('tok3-publisher::layout.pages')
 
+@section('meta')
+<meta name="robots" content="noindex, follow">
+@endsection
 
 @section('content')
 <div class="container">
@@ -14,7 +17,8 @@
         <div class="col-sm-8 blog-main">
 
             @foreach ($pages as $page)
-                <div class="blog-post">
+
+            <div class="blog-post">
                     <h3 class="blog-post-title">{{ $page->heading }}</h3>
                     <p class="blog-post-meta">{{ $page->published_at->formatLocalized(Config::get('tok3-publisher.date_format_localized','%d. %B %Y'))  }}</p>
 
@@ -39,7 +43,7 @@
                 <h4>Archives</h4>
                 <ol class="list-unstyled">
                     @foreach (\Publisher::archive() as $arc)
-                        <li><a href="#">{{$arc}}</a></li>
+                        <li><a href="{{ $arc['link'] }}">{{$arc['txt']}}</a></li>
                         @endforeach
                 </ol>
             </div>

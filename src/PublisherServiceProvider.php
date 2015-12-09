@@ -4,6 +4,7 @@ namespace Tok3\Publisher;
 use Illuminate\Support\ServiceProvider;
 use \Tok3\Publisher\Models\Image as Image;
 use \Tok3\Publisher\Models\Page as Page;
+
 class PublisherServiceProvider extends ServiceProvider
 {
     public function register()
@@ -24,11 +25,11 @@ class PublisherServiceProvider extends ServiceProvider
         {
             return new Publisher;
         });
-/*
-        $this->mergeConfigFrom(
-            __DIR__ . '/config/main.php', 'tok3-demo-main'
-        );
-*/
+        /*
+                $this->mergeConfigFrom(
+                    __DIR__ . '/config/main.php', 'tok3-demo-main'
+                );
+        */
 
     }
 
@@ -45,24 +46,25 @@ class PublisherServiceProvider extends ServiceProvider
         ], 'package.php');
 
 
-                $this->publishes([
-                    __DIR__ . '/views' => base_path('resources/views/vendor/tok3-publisher')
-                ], 'views');
+        $this->publishes([
+            __DIR__ . '/views' => base_path('resources/views/vendor/tok3-publisher')
+        ], 'views');
 
 
-                $this->publishes([
-                    __DIR__ . '/migrations' => $this->app->databasePath() . '/migrations'
-                ], 'migrations');
+        $this->publishes([
+            __DIR__ . '/migrations' => $this->app->databasePath() . '/migrations'
+        ], 'migrations');
 
         $this->publishes([
             __DIR__ . '/seeds' => base_path('database/seeds')
         ], 'views');
 
 
+        // Model event when deleting page delete all images associated with
+        Page::deleting(function ($page)
+        {
 
-        Page::deleting(function ($page) {
-
-            if(count($page->images) > 0)
+            if (count($page->images) > 0)
             {
                 foreach ($page->images as $image)
                 {

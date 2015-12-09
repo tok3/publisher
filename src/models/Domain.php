@@ -8,8 +8,7 @@ use Carbon\Carbon;
 class Domain extends Model
 {
     protected $table = 'tok3_publisher_domains';
-
-
+protected $fillable = ['name','slug', 'description'];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -17,8 +16,6 @@ class Domain extends Model
     {
         return $this->hasMany('Tok3\Publisher\Models\Page');
     }
-
-
 
 
 }

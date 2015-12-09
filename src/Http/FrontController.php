@@ -4,7 +4,9 @@ namespace Tok3\Publisher\Http;
 use Illuminate\Routing\Controller as BaseController;
 use \Tok3\Publisher\Models\Page as Page;
 use \Tok3\Publisher\Models\Domain as Domain;
+use \Tok3\Publisher\Models\Tag as Tag;
 use \Tok3\Publisher\Requests\PagesEditCreateRequest;
+use Carbon\Carbon as Carbon;
 
 class FrontController extends BaseController
 {
@@ -13,7 +15,8 @@ class FrontController extends BaseController
     public function __construct()
     {
 
-        $this->paginate = \Config::get('tok3-publisher.index_pager_items',5);
+        $this->paginate = \Config::get('tok3-publisher.index_pager_items', 5);
+        $this->view = (object) \Config::get('tok3-publisher.views');
     }
 
     /**
@@ -22,9 +25,10 @@ class FrontController extends BaseController
     public function index()
     {
 
+
         $pages = Page::published()->paginate($this->paginate);
 
-        return view('tok3-publisher::index', compact('pages'));
+        return view($this->view->index, compact('pages'));
     }
 
 
@@ -38,7 +42,14 @@ class FrontController extends BaseController
             ->where('domain_id', 0)
             ->first();
 
-        return view('tok3-publisher::page', compact('page'));
+        $view = $this->view->page;
+
+        if($page->type == 1)
+        {
+            $view = $this->view->article_page;
+        }
+
+        return view($view, compact('page'));
     }
 
     /**
@@ -56,7 +67,7 @@ class FrontController extends BaseController
         $pages = Page::published()
             ->where('domain_id', $domain->id)->paginate($this->paginate);
 
-        return view('tok3-publisher::index', compact('pages', 'domain_slug'));
+        return view($this->view->index_domain, compact('pages', 'domain_slug'));
 
     }
 
@@ -77,7 +88,14 @@ class FrontController extends BaseController
             ->where('domain_id', $domain->id)
             ->first();
 
-        return view('tok3-publisher::page', compact('page','domain_slug'));
+        $view = $this->view->page;
+
+        if($page->type == 1)
+        {
+            $view = $this->view->article_page;
+        }
+
+        return view($view, compact('page', 'domain_slug'));
     }
 
     /**
@@ -95,5 +113,50 @@ class FrontController extends BaseController
         return view('tok3-publisher::page', compact('page'));
     }
 
+    /**
+     * list archive
+     *
+     * @param $req
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function archive($req)
+    {
 
+        $pages = Page::archive($req)->paginate($this->paginate);
+
+        return view($this->view->index_archive, compact('pages'));
+
+    }
+
+    /**
+     * list all articles belongs to certain tag
+     * @param $req
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function tag($req)
+    {
+
+        $p = TAG::where('slug', $req)->first();
+
+        $pages = $p->pages()->paginate($this->paginate);
+
+        return view($this->view->index_tag, compact('pages'));
+
+    }
+
+
+    /**
+     * sitemap mh :-)
+     */
+    public function sitemap()
+    {
+
+        $pages = Page::published()->get();
+
+
+        echo '<?xml version="1.0" encoding="UTF-8"?>'. "\n";
+
+        return view('tok3-publisher::sitemap', compact('pages'));
+
+    }
 }

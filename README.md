@@ -43,7 +43,7 @@ after that `php artisan migrate`
 
 
 ### Now you are done !
-Explor the package visit: <b>http://localhost:8000/publisher/pages</b> (assumed using artisan)
+Explore the package visit: <b>http://localhost:8000/publisher/pages</b> (assumed using artisan)
 
 when you need some fake data you'll find a seeder in `vendor/tok3/publisher/src/seeds`
 

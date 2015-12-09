@@ -5,20 +5,30 @@ use Illuminate\Routing\Controller as BaseController;
 use \Tok3\Publisher\Models\Page as Page;
 use \Tok3\Publisher\Models\Image as Image;
 use \Tok3\Publisher\Models\Domain as Domain;
+use \Tok3\Publisher\Models\Tag as Tag;
 use Illuminate\Http\Request;
 use \Tok3\Publisher\Requests\PagesEditCreateRequest;
 
 class PagesController extends BaseController
 {
+
+    public function __construct()
+    {
+
+        $this->view = (object)\Config::get('tok3-publisher.admin_views');
+
+    }
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
 
-        $pages = Page::published()->paginate(25);
+        //$pages = Page::published()->paginate(25); // no pagiger due to use of datatables
+        $pages = Page::published()->get();
 
-        return view('tok3-publisher::admin.pages_index', compact('pages'));
+        return view($this->view->index_pages, compact('pages'));
+
     }
 
 
@@ -29,13 +39,14 @@ class PagesController extends BaseController
      */
     public function edit(Page $page, $page_id)
     {
-
         $page = $page->findOrFail($page_id);
+
 
         $domains = ['0' => 'No Domain'] + Domain::lists('name', 'id')->sort()->toArray();
 
+        $tags = Tag::lists('name', 'id');
 
-        return view('tok3-publisher::admin.cr_edit', compact('page', 'domains'))
+        return view($this->view->crud_pages, compact('page', 'domains', 'tags'))
             ->with('method', 'patch');
     }
 
@@ -49,7 +60,13 @@ class PagesController extends BaseController
     {
         $page = $pages->find($id);
 
+        if (is_array($request->tag_list))
+        {
+            $this->syncTags($page, $request->tag_list);
+        }
+
         $images = $request->file('images');
+
 
         if ($request->hasFile('images') && is_array($images))
         {
@@ -106,9 +123,11 @@ class PagesController extends BaseController
     {
         $page = new $page;
 
+        $tags = Tag::lists('name', 'id');
+
         $domains = ['0' => 'No Domain'] + Domain::lists('name', 'id')->sort()->toArray();
 
-        return view('tok3-publisher::admin.cr_edit', compact('page', 'domains'))
+        return view($this->view->crud_pages, compact('page', 'domains', 'tags'))
             ->with('method', 'post');
     }
 
@@ -121,12 +140,21 @@ class PagesController extends BaseController
     {
 
         $page = new $pages;
-        //$request->page['slug'] = str_slug($request->page['title']);
-        $new_page = $page->create($request->page);
+        $crData = $request->page;
+
+        $crData['meta_description'] = $request->page['teaser'];
+        $crData['og_description'] = $request->page['teaser'];
+
+        $new_page = $page->create($crData);
 
         return redirect()->action('\Tok3\Publisher\Http\PagesController@edit', [$new_page->id]);
     }
 
+    /**
+     * @param Page $page
+     * @param $page_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Page $page, $page_id)
     {
 
@@ -136,5 +164,42 @@ class PagesController extends BaseController
 
     }
 
+
+    /**
+     * /*
+     * Syncronize  tags
+     *
+     * @param Page $page
+     * @param array $tags
+     */
+    private function syncTags(Page $page, array $tags)
+    {
+
+
+        foreach ($tags as $tag_id)
+        {
+
+            if (!is_numeric($tag_id))
+            {
+                //$newTag = $tag_id;
+                $newTag = substr($tag_id, 3);
+                if (strlen($newTag) >= 3)
+                {
+                    $new_tag = Tag::create(['slug' => str_slug(str_replace('_', ' ', $newTag)), 'name' => str_replace('_', ' ', $newTag), 3]);
+                    $tag_id = $new_tag->id;
+
+                    $allTagIds[] = $tag_id;
+
+                }
+            }
+            else
+            {
+                $allTagIds[] = $tag_id;
+            }
+        }
+
+        $page->tags()->sync($allTagIds);
+
+    }
 
 }
