@@ -143,7 +143,7 @@ class PagesController extends BaseController
         $crData = $request->page;
 
         $crData['meta_description'] = $request->page['teaser'];
-        $crData['og_description'] = $request->page['teaser'];
+        $crData['og_descr'] = $request->page['teaser'];
 
         $new_page = $page->create($crData);
 
