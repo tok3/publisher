@@ -1,48 +1,8 @@
 <?php
-namespace Tok3\Publisher;
+namespace Tok3\Publisher\Helpers;
 
-use \Tok3\Publisher\Models\Page as Page;
-use \Tok3\Publisher\Models\Domain as Domain;
-use Carbon\Carbon as Carbon;
-
-
-class Publisher
+class FormatHelper
 {
-
-    /**
-     * generate archive links by month and year
-     *
-     * @return array
-     */
-    public function archive()
-    {
-
-
-        $posts = Page::published()
-            ->where('type',1)
-            ->where('published_at', '<', Carbon::now()->startOfMonth())
-            ->get()->groupBy(function ($item)
-        {
-            return $item->published_at->formatLocalized('%B %Y');
-        });
-
-
-        $retVal = [];
-        $key = 0;
-        foreach ($posts as $archmonth => $item)
-        {
-
-            $retVal[$key]['link'] = url(\Config::get('tok3-publisher.default_route', 'publisher') . '/archive/' . $item[0]->published_at->formatLocalized('%Y-%m'));
-
-            $retVal[$key]['txt'] = $archmonth . ' (' . count($item) . ')';
-
-            ++$key;
-        }
-
-        return $retVal;
-    }
-
-
 
     /**
      * senitize unbalanced html tags
@@ -97,4 +57,28 @@ class Publisher
         return str_replace($filter,$replace,$_input);
 
     }
+    /**
+     * Convert youtube duration in seconds and other
+     *
+     * @param $youtube_time
+     * @param string $_format
+     * @return string
+     */
+    public static function convTime($youtube_time, $_format = 'H:i:s')
+    {
+        $start = new \DateTime('@0'); // Unix epoch
+        $start->add(new \DateInterval($youtube_time));
+
+        if ($_format == 'seconds' || $_format == 'sec')
+        {
+            $split = explode(':', $start->format('H:i:s'));
+            $seconds = ($split[0] * 60 * 60) + ($split[1] * 60) + $split[2];
+
+            return $seconds;
+        }
+
+        return $start->format($_format);
+    }
+
+
 }

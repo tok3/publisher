@@ -8,16 +8,27 @@ use \Tok3\Publisher\Models\Domain as Domain;
 use \Tok3\Publisher\Models\Tag as Tag;
 use Illuminate\Http\Request;
 use \Tok3\Publisher\Requests\PagesEditCreateRequest;
-
+use Illuminate\Contracts\Auth\Guard as Auth;
 class PagesController extends BaseController
 {
 
     public function __construct()
     {
+        if (\Config::get('tok3-publisher.no_auth_redir') != false &&  !\Auth::check())
+        {
+            Redirect()->to(\Config::get('tok3-publisher.no_auth_redir'))->send();
+         }
 
         $this->view = (object)\Config::get('tok3-publisher.admin_views');
 
     }
+
+    function home()
+    {
+        return redirect('auth/login');
+
+    }
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -40,6 +51,7 @@ class PagesController extends BaseController
     public function edit(Page $page, $page_id)
     {
         $page = $page->findOrFail($page_id);
+
 
 
         $domains = ['0' => 'No Domain'] + Domain::lists('name', 'id')->sort()->toArray();
@@ -142,8 +154,8 @@ class PagesController extends BaseController
         $page = new $pages;
         $crData = $request->page;
 
-        $crData['meta_description'] = $request->page['teaser'];
-        $crData['og_descr'] = $request->page['teaser'];
+        $crData['meta_description'] = strip_tags($request->page['teaser']);
+        $crData['og_descr'] = strip_tags($request->page['teaser']);
 
         $new_page = $page->create($crData);
 

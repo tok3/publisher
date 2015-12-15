@@ -18,5 +18,10 @@
 
     {!! Form::text('page[og_descr]',$page->open_graph,['class'=>'form-control'] ) !!}
 </div>
+<div class="form-group">
+    {!! Form::label('page[add_head_data]', 'Additional Head data:') !!}
+
+    {!! Form::textarea('page[add_head_data]',$page->open_graph,['class'=>'form-control'] ) !!}
+</div>
 
 

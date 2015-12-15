@@ -8,6 +8,7 @@ return [
     'route_sitemap' => 'sitemap.xml',               // route sitemap
     'date_format_localized' => '%d. %B %Y',
     'images_dir' => 'images/tok3-publisher/',
+    'no_auth_redir' => false,                // redirect when user is not authenticated, usual login page. Set FALSE to disable auth check on admin pages
     'views' => [
         'index' => 'tok3-publisher::index',         // view list all paes
         'index_domain' => 'tok3-publisher::index',  // view list by domain / category
@@ -23,7 +24,6 @@ return [
         'crud_domains' => 'tok3-publisher::admin.domains_crud',
         'index_tags' => 'tok3-publisher::admin.tags_index',
         'crud_tags' => 'tok3-publisher::admin.tags_crud',
-
     ]
 
 ];

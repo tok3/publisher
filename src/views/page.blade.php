@@ -20,7 +20,10 @@
         <meta property="og:image" content="{!!URL::asset(Config::get('tok3-publisher.images_dir') . $page->image('top')->name) !!}"/>
     @endif
 
+@endsection
 
+@section('add_head_data')
+    {!! $page->add_head_data !!}
 @endsection
 
 @section('content')
@@ -41,15 +44,15 @@
                             <li><i class="fa fa-calendar"></i> {{ $page->published_at->formatLocalized('%d. %B %Y')  }}</li>
                         </ul>
                     @endif
-                    <h2>{{$page->heading}}</h2>
+                        <h2>{!! $page->heading !!}</h2>
 
-                    <p class="lead">
-                        {{$page->teaser}}
-                    </p>
+                        <p class="lead">
+                            {!! $page->teaser !!}
+                        </p>
 
-                    <p>
-                        {{$page->text}}
-                    </p>
+                        <p>
+                            {!! $page->text !!}
+                        </p>
                 </div>
                 <!--blog post-->
 
@@ -95,16 +98,16 @@
                 <!--sidebar-box-->
 
                 @if(count($page->tags) > 0)
-                <div class="sidebar-box margin40">
-                    <h4>Tags</h4>
+                    <div class="sidebar-box margin40">
+                        <h4>Tags</h4>
 
-                    <div class="tag-list">
-                        @foreach($page->tags as $tag)
-                            <a href="{{url(\Config::get('tok3-publisher.default_route', 'publisher')).'/tag/' . $tag->slug}}">{{$tag->name}}</a>
-                        @endforeach
+                        <div class="tag-list">
+                            @foreach($page->tags as $tag)
+                                <a href="{{url(\Config::get('tok3-publisher.default_route', 'publisher')).'/tag/' . $tag->slug}}">{{$tag->name}}</a>
+                            @endforeach
+                        </div>
                     </div>
-                </div>
-                    @endif
+                @endif
             </div>
             <!--sidebar-col-->
         </div>

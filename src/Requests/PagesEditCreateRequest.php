@@ -4,6 +4,7 @@ namespace Tok3\Publisher\Requests;
 
 use \App\Http\Requests\Request;
 use \Tok3\Publisher\Models\Page as Page;
+use \Tok3\Publisher\Helpers\FormatHelper;
 
 class PagesEditCreateRequest extends Request
 {
@@ -25,11 +26,13 @@ class PagesEditCreateRequest extends Request
     public function rules()
     {
         //$this->uqSlug();
+
+        $this->sanitizeTags();
+
         $rules = [
-           'page.slug' => "required|unique:tok3_publisher_pages,slug",
+            'page.slug' => "required|unique:tok3_publisher_pages,slug",
             'page.title' => "required"
         ];
-
 
 
         foreach ($this->images as $key => $uplFile)
@@ -43,7 +46,7 @@ class PagesEditCreateRequest extends Request
 
         if ((Request::isMethod('patch') || Request::isMethod('put')))
         {
-         unset($rules['page.slug']);
+            unset($rules['page.slug']);
         }
 
         return $rules;
@@ -51,7 +54,30 @@ class PagesEditCreateRequest extends Request
     }
 
 
-    protected function uqSlug()
+
+
+    public function sanitizeTags()
+    {
+        $input = $this->all();
+
+        $input['page']['teaser'] = FormatHelper::sanitizeTags($input['page']['teaser']);
+        $input['page']['text'] = FormatHelper::sanitizeTags($input['page']['text']);
+
+        $input['page']['teaser'] = FormatHelper::filterTags($input['page']['teaser']);
+        $input['page']['text'] = FormatHelper::filterTags($input['page']['text']);
+
+        $input['page']['meta_description'] = strip_tags($input['page']['meta_description']);
+        $input['page']['meta_keywords'] = strip_tags($input['page']['meta_keywords']);
+        $input['page']['og_descr'] = strip_tags($input['page']['og_descr']);
+
+
+
+        $this->replace($input);
+    }
+
+
+
+    /*protected function uqSlug()
     {
         $input = $this->request->all();
 
@@ -75,6 +101,6 @@ class PagesEditCreateRequest extends Request
         }
 
         $this->replace($input);
-    }
+    }*/
 
 }
