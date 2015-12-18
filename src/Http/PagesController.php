@@ -152,12 +152,20 @@ class PagesController extends BaseController
     {
 
         $page = new $pages;
-        $crData = $request->page;
 
-        $crData['meta_description'] = strip_tags($request->page['teaser']);
+
+        $crData = $request->page;
+$crData['meta_description'] = strip_tags($request->page['teaser']);
         $crData['og_descr'] = strip_tags($request->page['teaser']);
 
         $new_page = $page->create($crData);
+
+        if (is_array($request->tag_list))
+        {
+            $this->syncTags($new_page, $request->tag_list);
+        }
+
+
 
         return redirect()->action('\Tok3\Publisher\Http\PagesController@edit', [$new_page->id]);
     }

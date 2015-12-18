@@ -21,7 +21,7 @@
 <div class="form-group">
     {!! Form::label('page[add_head_data]', 'Additional Head data:') !!}
 
-    {!! Form::textarea('page[add_head_data]',$page->open_graph,['class'=>'form-control'] ) !!}
+    {!! Form::textarea('page[add_head_data]',$page->add_head_data,['class'=>'form-control'] ) !!}
 </div>
 
 

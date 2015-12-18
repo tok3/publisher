@@ -27,7 +27,7 @@ class PagesEditCreateRequest extends Request
     {
         //$this->uqSlug();
 
-        $this->sanitizeTags();
+      //  $this->sanitizeTags();
 
         $rules = [
             'page.slug' => "required|unique:tok3_publisher_pages,slug",

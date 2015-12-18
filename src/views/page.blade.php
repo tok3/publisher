@@ -13,7 +13,7 @@
         <meta property="og:type" content="article"/>
     @endif
     <meta property="og:title" content="{!! $page->heading !!}"/>
-    <meta property="og:description" content="{!! $page->teaser !!}"/>
+    <meta property="og:description" content="{!! $page->og_descr !!}"/>
 
     @if( $page->images->contains('usage', 'top'))
 
