@@ -24,6 +24,8 @@ return [
         'crud_domains' => 'tok3-publisher::admin.domains_crud',
         'index_tags' => 'tok3-publisher::admin.tags_index',
         'crud_tags' => 'tok3-publisher::admin.tags_crud',
-    ]
+    ],
+    'public_route_group_param' => [],                 //parameter for public route groups eg. middleware
+    'admin_route_group_param' => []                 //parameter for public route groups eg. middleware
 
 ];

@@ -9,15 +9,16 @@ use \Tok3\Publisher\Models\Tag as Tag;
 use Illuminate\Http\Request;
 use \Tok3\Publisher\Requests\PagesEditCreateRequest;
 use Illuminate\Contracts\Auth\Guard as Auth;
+
 class PagesController extends BaseController
 {
 
     public function __construct()
     {
-        if (\Config::get('tok3-publisher.no_auth_redir') != false &&  !\Auth::check())
+        if (\Config::get('tok3-publisher.no_auth_redir') != false && !\Auth::check())
         {
             Redirect()->to(\Config::get('tok3-publisher.no_auth_redir'))->send();
-         }
+        }
 
         $this->view = (object)\Config::get('tok3-publisher.admin_views');
 
@@ -50,8 +51,8 @@ class PagesController extends BaseController
      */
     public function edit(Page $page, $page_id)
     {
-        $page = $page->findOrFail($page_id);
 
+        $page = $page->findOrFail($page_id);
 
 
         $domains = ['0' => 'No Domain'] + Domain::lists('name', 'id')->sort()->toArray();
@@ -70,6 +71,7 @@ class PagesController extends BaseController
      */
     public function update(PagesEditCreateRequest $request, Page $pages, Image $_image, $id)
     {
+
         $page = $pages->find($id);
 
         if (is_array($request->tag_list))
@@ -155,7 +157,7 @@ class PagesController extends BaseController
 
 
         $crData = $request->page;
-$crData['meta_description'] = strip_tags($request->page['teaser']);
+        $crData['meta_description'] = strip_tags($request->page['teaser']);
         $crData['og_descr'] = strip_tags($request->page['teaser']);
 
         $new_page = $page->create($crData);
@@ -164,7 +166,6 @@ $crData['meta_description'] = strip_tags($request->page['teaser']);
         {
             $this->syncTags($new_page, $request->tag_list);
         }
-
 
 
         return redirect()->action('\Tok3\Publisher\Http\PagesController@edit', [$new_page->id]);

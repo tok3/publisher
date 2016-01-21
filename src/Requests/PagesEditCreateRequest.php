@@ -27,7 +27,7 @@ class PagesEditCreateRequest extends Request
     {
         //$this->uqSlug();
 
-      //  $this->sanitizeTags();
+        // $this->sanitizeTags();
 
         $rules = [
             'page.slug' => "required|unique:tok3_publisher_pages,slug",
@@ -35,14 +35,16 @@ class PagesEditCreateRequest extends Request
         ];
 
 
-        foreach ($this->images as $key => $uplFile)
+        if (isset($uplFile))
         {
-            if (count($uplFile) == 1)
+            foreach ($this->images as $key => $uplFile)
             {
-                $rules['images.' . $key] = 'mimes:jpeg,png,gif';
+                if (count($uplFile) == 1)
+                {
+                    $rules['images.' . $key] = 'mimes:jpeg,png,gif';
+                }
             }
         }
-
 
         if ((Request::isMethod('patch') || Request::isMethod('put')))
         {
@@ -52,8 +54,6 @@ class PagesEditCreateRequest extends Request
         return $rules;
 
     }
-
-
 
 
     public function sanitizeTags()
@@ -71,10 +71,8 @@ class PagesEditCreateRequest extends Request
         $input['page']['og_descr'] = strip_tags($input['page']['og_descr']);
 
 
-
         $this->replace($input);
     }
-
 
 
     /*protected function uqSlug()

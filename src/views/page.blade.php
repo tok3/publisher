@@ -7,8 +7,8 @@
 @section('meta')
     <meta name="description" content="{!! $page->meta_description !!}"/>
 
-    <meta name="date" content="{!! $page->created_at->format('Y-m-d\TH:i:sO') !!}"/>
-    <meta name="last-modified" content="{!! $page->updated_at->format('Y-m-d\TH:i:sO') !!}"/>
+    <meta name="date" content="{!! $page->created_at->format('Y-m-d\TH:i:sP') !!}"/>
+    <meta name="last-modified" content="{!! $page->updated_at->format('Y-m-d\TH:i:sP') !!}"/>
     @if($page->type == 1)
         <meta property="og:type" content="article"/>
     @endif
