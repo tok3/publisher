@@ -43,6 +43,10 @@ Route::group(Config::get('tok3-publisher.public_route_group_param', []), functio
 
     Route::get('tok3-pp/{slug}', 'Tok3\Publisher\Http\FrontController@preview');
 
-    Route::get('{slug}', 'Tok3\Publisher\Http\FrontController@show');
+    if(Config::get('tok3-publisher.enable_top_route', FALSE) === TRUE)
+    {
+         Route::get('{slug}', 'Tok3\Publisher\Http\FrontController@show');
+    }
 
+    Route::get('{slug}', '\App\HTTP\Controllers\MaklerPagesController@show');
 });
