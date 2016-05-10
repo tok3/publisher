@@ -14,12 +14,15 @@ class PublisherServiceProvider extends ServiceProvider
         $loader = \Illuminate\Foundation\AliasLoader::getInstance();
 
         $this->app->register('Collective\Html\HtmlServiceProvider');
+        //$this->app->register('Intervention\Image\ImageServiceProvider');
 
         $this->app->alias('Form', 'Collective\Html\FormFacade');
         $this->app->alias('HTML', 'Collective\Html\HtmlFacade');
+        //$this->app->alias('Image', 'Intervention\Image\Facades\Image');
 
         $loader->alias('Form', 'Collective\Html\FormFacade');
         $loader->alias('HTML', 'Collective\Html\HtmlFacade');
+        //$loader->alias('Image', 'Intervention\Image\Facades\Image');
 
         $this->app->bind('tok3-publisher', function ()
         {

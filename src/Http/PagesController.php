@@ -39,6 +39,7 @@ class PagesController extends BaseController
         //$pages = Page::published()->paginate(25); // no pagiger due to use of datatables
         $pages = Page::published()->get();
 
+
         return view($this->view->index_pages, compact('pages'));
 
     }
@@ -54,8 +55,32 @@ class PagesController extends BaseController
 
         $page = $page->findOrFail($page_id);
 
+        //test
+        /*
+        $pages = Page::published()->get();
+        foreach ($pages as $key => $page)
+        {
+            if(($page->images->contains('usage', 'list')) && (!$page->images->contains('usage', 'top')))
+            {
+                   $this->cropdouble($page->images[0]->id, 'top');
 
-        $domains = ['0' => 'No Domain'] + Domain::lists('name', 'id')->sort()->toArray();
+            }
+            }
+
+        die();*/
+        // ende test
+
+      // create crop from article overview image as article top image
+        if(($page->images->contains('usage', 'list')) && (!$page->images->contains('usage', 'top')))
+        {
+
+            $image = Image::where('usage', 'list')->where('page_id', $page_id)->first();
+            $this->cropdouble($image->id, 'top');
+
+            return redirect()->action('\Tok3\Publisher\Http\PagesController@edit', [$page->id]);
+        }
+
+         $domains = ['0' => 'No Domain'] + Domain::lists('name', 'id')->sort()->toArray();
 
         $tags = Tag::lists('name', 'id');
 
@@ -101,7 +126,9 @@ class PagesController extends BaseController
                     {
                         $image = new Image;
                         $image->page_id = $id;
+
                     }
+
 
 
                     //$img_filename = md5(time() . $id . $usage) . '.' . $img->guessExtension();
@@ -118,6 +145,8 @@ class PagesController extends BaseController
                     $image->save();
 
 
+
+
                 }
             }
 
@@ -128,6 +157,35 @@ class PagesController extends BaseController
         return back();
     }
 
+    /**
+     * @param $imgID
+     * @param string $usage
+     */
+    function cropdouble($imgID, $usage = '')
+    {
+        $path = \Config::get('tok3-publisher.images_dir', 'images/tok3-publisher/');
+
+        $orgImage = Image::where('id', $imgID)->first();
+
+        $img = \Image::make($path . $orgImage->name);
+
+        $img->fit(1200, 350, function ($constraint) {
+            $constraint->upsize();
+        });
+
+        $img->save($path . 'crop_' . $orgImage->name);
+
+        $image = new Image;
+
+        $image->page_id = $orgImage->page_id;
+        $image->origin_name = $orgImage->origin_name;
+        $image->usage = $usage;
+        $image->name = 'crop_' . $orgImage->name;
+        $image->mime = $orgImage->mime;
+
+        $image->save();
+
+    }
     /**
      * @param Page $page
      * @param $page_id

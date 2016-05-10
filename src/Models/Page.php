@@ -11,7 +11,7 @@ class Page extends Model
     protected $table = 'tok3_publisher_pages';
 
     /**
-     * @var array
+     * @Var array
      */
 
     protected $dates = ['published_at', 'published_till', 'created_at', 'updated_at'];

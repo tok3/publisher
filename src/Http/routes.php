@@ -8,6 +8,7 @@ Route::group(Config::get('tok3-publisher.public_route_group_param', []), functio
     Route::resource(Config::get('tok3-publisher.route_admin_pages', 'publisher-pages'), 'Tok3\Publisher\Http\PagesController');
     Route::match(['get', 'delete'], Config::get('tok3-publisher.route_admin_pages', 'publisher-pages') . '/{id}/delete', 'Tok3\Publisher\Http\PagesController@destroy');
 
+
     // Admin Tags
     Route::resource(Config::get('tok3-publisher.route_admin_tags', 'publisher-tags'), 'Tok3\Publisher\Http\TagsController');
     Route::match(['get', 'delete'], Config::get('tok3-publisher.route_admin_tags', 'publisher-tags') . '/{id}/delete', 'Tok3\Publisher\Http\TagsController@destroy');
@@ -43,10 +44,10 @@ Route::group(Config::get('tok3-publisher.public_route_group_param', []), functio
 
     Route::get('tok3-pp/{slug}', 'Tok3\Publisher\Http\FrontController@preview');
 
-    if(Config::get('tok3-publisher.enable_top_route', FALSE) === TRUE)
+    if (Config::get('tok3-publisher.enable_top_route', FALSE) === TRUE)
     {
-         Route::get('{slug}', 'Tok3\Publisher\Http\FrontController@show');
+        Route::get('{slug}', 'Tok3\Publisher\Http\FrontController@show');
     }
 
-    Route::get('{slug}', '\App\HTTP\Controllers\MaklerPagesController@show');
+
 });

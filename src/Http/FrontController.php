@@ -60,6 +60,7 @@ class FrontController extends BaseController
      */
     public function indexDomain()
     {
+
         $domain_slug = \Request::segment(1);
         $domain = Domain::where('slug', $domain_slug)
             ->first();
