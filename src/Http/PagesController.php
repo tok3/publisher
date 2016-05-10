@@ -56,7 +56,7 @@ class PagesController extends BaseController
         $page = $page->findOrFail($page_id);
 
         //test
-
+        /*
         $pages = Page::published()->get();
         foreach ($pages as $key => $page)
         {
@@ -67,7 +67,7 @@ class PagesController extends BaseController
             }
             }
 
-        die();
+        die();*/
         // ende test
 
       // create crop from article overview image as article top image
