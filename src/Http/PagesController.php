@@ -36,8 +36,8 @@ class PagesController extends BaseController
     public function index()
     {
 
-        //$pages = Page::published()->paginate(25); // no pagiger due to use of datatables
-        $pages = Page::published()->get();
+        //$pages = Page::published()->paginate(25);
+        //$pages = Page::published()->get();
 
 
         return view($this->view->index_pages, compact('pages'));

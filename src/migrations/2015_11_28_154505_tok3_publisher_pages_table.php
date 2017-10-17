@@ -22,6 +22,7 @@ class Tok3PublisherPagesTable extends Migration
             $table->string('heading');
             $table->text('teaser');
             $table->text('text');
+           $table->text('text_2');
             $table->string('meta_description');
             $table->string('meta_keywords');
             $table->string('og_descr');

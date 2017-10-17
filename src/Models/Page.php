@@ -37,6 +37,7 @@ class Page extends Model
             ->orderby('published_at', 'DESC');
     }
 
+    // news archive
     public function scopeArchive($query, $date)
     {
 

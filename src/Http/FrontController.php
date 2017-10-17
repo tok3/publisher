@@ -10,13 +10,13 @@ use Carbon\Carbon as Carbon;
 
 class FrontController extends BaseController
 {
-    var $paginate;
+    var $paginate = 5;
 
     public function __construct()
     {
 
         $this->paginate = \Config::get('tok3-publisher.index_pager_items', 5);
-        $this->view = (object) \Config::get('tok3-publisher.views');
+        $this->view = (object)\Config::get('tok3-publisher.views');
     }
 
     /**
@@ -24,7 +24,6 @@ class FrontController extends BaseController
      */
     public function index()
     {
-
 
         $pages = Page::published()->paginate($this->paginate);
 
@@ -44,7 +43,7 @@ class FrontController extends BaseController
 
         $view = $this->view->page;
 
-        if($page->type == 1)
+        if ($page->type == 1)
         {
             $view = $this->view->article_page;
         }
@@ -72,6 +71,11 @@ class FrontController extends BaseController
 
     }
 
+    private function replaceContent($ctn)
+    {
+        return $ctn . 'jep';
+
+    }
     /**
      * show entries prefixed by a domain/cat
      *
@@ -89,9 +93,11 @@ class FrontController extends BaseController
             ->where('domain_id', $domain->id)
             ->first();
 
+
+
         $view = $this->view->page;
 
-        if($page->type == 1)
+        if ($page->type == 1)
         {
             $view = $this->view->article_page;
         }
@@ -111,8 +117,15 @@ class FrontController extends BaseController
             ->where('ip', \Request::getClientIp())
             ->first();
 
+
+
+        $formView = view('site._cta_form_top');
+
+
         return view('tok3-publisher::page', compact('page'));
     }
+
+
 
     /**
      * list archive
@@ -256,6 +269,7 @@ class FrontController extends BaseController
             ),
             $input);
     }
+
     /**
      * sitemap mh :-)
      */
@@ -265,7 +279,7 @@ class FrontController extends BaseController
         $pages = Page::published()->get();
 
 
-        echo '<?xml version="1.0" encoding="UTF-8"?>'. "\n";
+        echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 
         return view('tok3-publisher::sitemap', compact('pages'));
 
