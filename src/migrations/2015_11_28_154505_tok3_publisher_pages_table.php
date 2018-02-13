@@ -22,11 +22,11 @@ class Tok3PublisherPagesTable extends Migration
             $table->string('heading');
             $table->text('teaser');
             $table->text('text');
-           $table->text('text_2');
-            $table->string('meta_description');
-            $table->string('meta_keywords');
+           $table->text('text_2')->unsigned()->nullable();
+            $table->string('meta_description')->unsigned()->nullable();
+            $table->string('meta_keywords')->unsigned()->nullable();
             $table->string('og_descr');
-            $table->text('add_head_data');
+            $table->text('add_head_data')->unsigned()->nullable();
             $table->integer('published');
             $table->integer('domain_id')
                 ->default(0);

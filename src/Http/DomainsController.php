@@ -36,9 +36,9 @@ class DomainsController extends Controller
      * @param $domain_id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(Domain $domain, $domain_id)
+    public function edit($domain_id)
     {
-        $domain = $domain->findOrFail($domain_id);
+        $domain = Domain::findOrFail($domain_id);
 
 
         return view($this->view->crud_domains, compact('domain'))

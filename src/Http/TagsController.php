@@ -2,7 +2,6 @@
 
 namespace Tok3\Publisher\Http;
 
-
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -34,9 +33,9 @@ class TagsController extends Controller
      * @param $tag_id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(Tag $tag, $tag_id)
+    public function edit($tag_id)
     {
-        $tag = $tag->findOrFail($tag_id);
+        $tag = Tag::findOrFail($tag_id);
 
 
         return view($this->view->crud_tags, compact('tag'))

@@ -113,7 +113,7 @@ class Page extends Model
 
         $role_permissions = DB::table('tok3_publisher_page_tag')
             ->where('page_id', $this->id)
-            ->lists('tag_id');
+            ->pluck('tag_id');
 
         return $role_permissions;
 

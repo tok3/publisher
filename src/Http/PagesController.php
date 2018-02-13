@@ -8,17 +8,17 @@ use \Tok3\Publisher\Models\Domain as Domain;
 use \Tok3\Publisher\Models\Tag as Tag;
 use Illuminate\Http\Request;
 use \Tok3\Publisher\Requests\PagesEditCreateRequest;
-use Illuminate\Contracts\Auth\Guard as Auth;
+//use Illuminate\Contracts\Auth\Guard as Auth;
 
 class PagesController extends BaseController
 {
 
     public function __construct()
     {
-        if (\Config::get('tok3-publisher.no_auth_redir') != false && !\Auth::check())
+  /*      if (\Config::get('tok3-publisher.no_auth_redir') != false && !\Auth::check())
         {
             Redirect()->to(\Config::get('tok3-publisher.no_auth_redir'))->send();
-        }
+        }*/
 
         $this->view = (object)\Config::get('tok3-publisher.admin_views');
 
@@ -50,10 +50,10 @@ class PagesController extends BaseController
      * @param $page_id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(Page $page, $page_id)
+    public function edit($page_id)
     {
 
-        $page = $page->findOrFail($page_id);
+        $page = Page::findOrFail($page_id);
 
         //test
         /*
@@ -80,9 +80,9 @@ class PagesController extends BaseController
             return redirect()->action('\Tok3\Publisher\Http\PagesController@edit', [$page->id]);
         }
 
-         $domains = ['0' => 'No Domain'] + Domain::lists('name', 'id')->sort()->toArray();
+         $domains = ['0' => 'No Domain'] + Domain::pluck('name', 'id')->sort()->toArray();
 
-        $tags = Tag::lists('name', 'id');
+        $tags = Tag::pluck('name', 'id');
 
         return view($this->view->crud_pages, compact('page', 'domains', 'tags'))
             ->with('method', 'patch');
@@ -193,11 +193,12 @@ class PagesController extends BaseController
      */
     public function create(Page $page)
     {
+
         $page = new $page;
 
-        $tags = Tag::lists('name', 'id');
+        $tags = Tag::pluck('name', 'id');
 
-        $domains = ['0' => 'No Domain'] + Domain::lists('name', 'id')->sort()->toArray();
+        $domains = ['0' => 'No Domain'] + Domain::pluck('name', 'id')->sort()->toArray();
 
         return view($this->view->crud_pages, compact('page', 'domains', 'tags'))
             ->with('method', 'post');

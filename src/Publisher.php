@@ -49,13 +49,10 @@ class Publisher
      */
     public function latest($_limit = 5)
     {
-
-
         $posts = Page::published()
             ->orderBy('published_at','DESC')
             ->limit($_limit)
             ->get();
-
 
         return $posts;
     }
