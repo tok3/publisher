@@ -18,6 +18,22 @@ class Page extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    protected $defaults = array(
+        'title' => '',
+        'heading' => 'set heading',
+        'teaser' => '',
+    );
+
+
+    public function __construct(array $attributes = array())
+    {
+        $this->setRawAttributes($this->defaults, true);
+        parent::__construct($attributes);
+    }
+
+
+
+
     /**
      * @param $query
      */

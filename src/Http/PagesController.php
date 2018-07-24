@@ -52,7 +52,6 @@ class PagesController extends BaseController
      */
     public function edit($page_id)
     {
-
         $page = Page::findOrFail($page_id);
 
         //test
@@ -84,7 +83,7 @@ class PagesController extends BaseController
 
         $tags = Tag::pluck('name', 'id');
 
-        return view($this->view->crud_pages, compact('page', 'domains', 'tags'))
+        return view($this->view->crud_pages, compact('page','domains', 'tags'))
             ->with('method', 'patch');
     }
 
@@ -152,6 +151,7 @@ class PagesController extends BaseController
 
         }
 
+      
         $page->update($request->page);
 
         return back();
