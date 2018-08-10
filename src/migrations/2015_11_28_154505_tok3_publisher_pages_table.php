@@ -19,9 +19,9 @@ class Tok3PublisherPagesTable extends Migration
                 ->unique();
             $table->integer('type');
             $table->string('title');
-            $table->string('heading');
-            $table->text('teaser');
-            $table->text('text');
+            $table->string('heading')->nullable();
+            $table->text('teaser')->nullable();
+            $table->text('text')->nullable();
            $table->text('text_2')->unsigned()->nullable();
             $table->string('meta_description')->unsigned()->nullable();
             $table->string('meta_keywords')->unsigned()->nullable();
