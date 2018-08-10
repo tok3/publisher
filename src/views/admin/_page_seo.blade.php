@@ -16,7 +16,7 @@
 <div class="form-group">
     {!! Form::label('page[og_descr]', 'Open Graph, Description:') !!}
 
-    {!! Form::text('page[og_descr]',$page->open_graph,['class'=>'form-control'] ) !!}
+    {!! Form::text('page[og_descr]',$page->og_descr,['class'=>'form-control'] ) !!}
 </div>
 <div class="form-group">
     {!! Form::label('page[add_head_data]', 'Additional Head data:') !!}
