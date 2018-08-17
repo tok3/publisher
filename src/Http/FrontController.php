@@ -281,7 +281,7 @@ class FrontController extends BaseController
 
         header('Content-type: text/xml');
         echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
-        
+
         return view('tok3-publisher::sitemap', compact('pages'));
 
     }
