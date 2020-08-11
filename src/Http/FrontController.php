@@ -118,7 +118,6 @@ class FrontController extends BaseController
             ->first();
 
 
-
         $formView = view('site._cta_form_top');
 
 
