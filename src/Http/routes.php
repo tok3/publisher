@@ -21,6 +21,7 @@ Route::group(Config::get('tok3-publisher.public_route_group_param', []), functio
 
 Route::group(Config::get('tok3-publisher.public_route_group_param', []), function ()
 {
+
     // Front
     Route::resource(Config::get('tok3-publisher.default_route', 'publisher'), 'Tok3\Publisher\Http\FrontController');
 
