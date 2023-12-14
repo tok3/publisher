@@ -37,6 +37,7 @@ class FrontController extends BaseController
      */
     public function show($slug)
     {
+
         $page = Page::published()->where('slug', $slug)
             ->where('domain_id', 0)
             ->first();
